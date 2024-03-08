@@ -1,0 +1,64 @@
+---
+title: "Model"
+format:
+  html:
+    code-fold: true
+---
+
+
+```{python}
+import seaborn as sns
+
+# Load the Palmer Penguins dataset
+penguins = sns.load_dataset("penguins")
+from pandas import get_dummies
+import numpy as np
+from sklearn.linear_model import LinearRegression
+from sklearn import preprocessing
+import vetiver
+from vetiver import VetiverModel
+import pins
+```
+
+## Get Data
+
+
+```{python}
+df = penguins.dropna()
+
+df.head(3)
+```
+
+## Define Model and Fit
+
+
+```{python}
+X = get_dummies(df[['bill_length_mm', 'species', 'sex']], drop_first = True)
+y = df['body_mass_g']
+
+model = LinearRegression().fit(X, y)
+v = VetiverModel(model, model_name='penguin_model', prototype_data=X)
+b = pins.board_folder('data/model', allow_pickle_read=True)
+vetiver.vetiver_pin_write(b,v)
+v = vetiver.VetiverModel.from_pin(b,'penguin_model')
+app = vetiver.VetiverAPI(v, check_prototype=True)
+#app.run(port = 8080)
+```
+
+## Get some information
+
+
+```{python}
+print(f"R^2 {model.score(X,y)}")
+print(f"Intercept {model.intercept_}")
+print(f"Columns {X.columns}")
+print(f"Coefficients {model.coef_}")
+```
+
+```{python}
+import duckdb
+con = duckdb.connect('my-db.duckdb')
+df = con.execute("SELECT * FROM penguins").fetchdf().dropna()
+con.close()
+```
+

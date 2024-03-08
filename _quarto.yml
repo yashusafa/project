@@ -1,0 +1,9 @@
+project:
+  title: "Project"
+
+editor: visual
+
+docs:
+  - eda.qmd
+  - model.qmd
+  - app.py
