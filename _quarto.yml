@@ -6,4 +6,6 @@ editor: visual
 docs:
   - eda.qmd
   - model.qmd
-  - app.py
+  
+execute:
+  freeze: auto
