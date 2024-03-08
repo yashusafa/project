@@ -5,21 +5,18 @@ project:
 
 website:
   title: "Project"
-
+  navbar:
+    left:
+      - href: index.qmd
+        text: Home
+      - eda.qmd
+      - model.qmd
 
 format:
   html:
     theme: cosmo
+    css: styles.css
     toc: true
-
-docs:
-  - eda.qmd
-  - model.qmd
-
-  
 
 editor: visual
 
-execute:
-  freeze: auto
-  
