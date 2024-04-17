@@ -7,6 +7,7 @@ format:
 
 
 ```{python}
+
 import seaborn as sns
 
 # Load the Palmer Penguins dataset

@@ -2,12 +2,11 @@ from shiny import App, render, ui, reactive
 import requests
 import logging
 
+api_url = 'http://127.0.0.1:8080/predict'
 logging.basicConfig(
     format='%(asctime)s - %(message)s',
     level=logging.INFO
 )
-
-api_url = 'http://127.0.0.1:8080/predict'
 
 app_ui = ui.page_fluid(
     ui.panel_title("Penguin Mass Predictor"), 
@@ -34,7 +33,7 @@ def server(input, output, session):
     def vals():
         d = {
             "bill_length_mm" : input.bill_length(),
-            "sex_male" : input.sex() == "Male",
+            "sex_Male" : input.sex() == "Male",
             "species_Gentoo" : input.species() == "Gentoo", 
             "species_Chinstrap" : input.species() == "Chinstrap"
 
@@ -45,7 +44,7 @@ def server(input, output, session):
     @reactive.event(input.predict)
     def pred():
         logging.info("Request Made")
-        r = requests.post(api_url, json = [vals()])
+        r = requests.post(api_url, json = vals())
         logging.info("Request Returned")
 
         if r.status_code != 200:
@@ -64,6 +63,3 @@ def server(input, output, session):
         return f"{round(pred())}"
 
 app = App(app_ui, server)
-
-if __name__ == "__main__":
-    app.run()
