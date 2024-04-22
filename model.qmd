@@ -9,14 +9,12 @@ format:
 ```{python}
 
 import seaborn as sns
-
 # Load the Palmer Penguins dataset
 penguins = sns.load_dataset("penguins")
 from pandas import get_dummies
 import numpy as np
 from sklearn.linear_model import LinearRegression
 from sklearn import preprocessing
-import vetiver
 from vetiver import VetiverModel
 import pins
 ```
